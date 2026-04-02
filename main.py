@@ -1,8 +1,9 @@
 import socket
 import argparse
+import threading
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--port",type=str, help="Specify ports to scan.\n Usage: -p [port] or -p [start_port]-[end_port]")
+parser.add_argument("-p", "--port",type=str, help="Specify ports to scan. Usage: -p [port] or -p [start_port]-[end_port]")
 parser.add_argument("-ip", type=str, help="Specify the host to scan (IPv4 address). Usage: -ip [host_ipv4_address]")
 args = parser.parse_args()
 
@@ -37,11 +38,21 @@ def scan(host, port):
         s.settimeout(0.001)
         s.connect((host, port))
         s.shutdown(socket.SHUT_RDWR)
+        print('Port ' + str(port) + ' is open')
         return True
     except:
         return False
 
-# scanning defined port or ports
+# Creating thread for each port
+threads = []
 for port in ports_to_scan:
-    if scan(HOST, port):
-        print('Port ' + str(port) + ' is open')
+    t = threading.Thread(target=scan, args=(HOST, port))
+    threads.append(t)
+
+# Starting threads
+for t in threads:
+    t.start()
+
+# Waiting for all threads to finish
+for t in threads:
+    t.join()
