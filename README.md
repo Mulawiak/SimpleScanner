@@ -15,5 +15,5 @@ Download the repository or just the script file, and run it from your terminal b
 * `-ip` : The IPv4 address of the target host (required).
 * `-p`, `--port` : A single port or a range of ports separated by a hyphen (required).
 
-### Example
+### Example:
 <img width="781" height="220" alt="obraz" src="https://github.com/user-attachments/assets/e07041c7-0028-4282-98c8-cd07199f7c12" />
